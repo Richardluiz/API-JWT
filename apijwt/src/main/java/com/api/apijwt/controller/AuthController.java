@@ -40,7 +40,7 @@ public class AuthController {
         User newUser = new User(
             loginRequest.getUsername(),
             passwordEncoder.encode(loginRequest.getPassword()),
-            "ROLE_USER" // papel padrão
+            "ROLE_USER"
         );
 
         userRepository.save(newUser);
@@ -70,7 +70,7 @@ public class AuthController {
         List<User> users = userRepository.findAll();
         return ResponseEntity.ok(users);
     }
-    
+
     @DeleteMapping("/users/{username}")
     @Operation(summary = "Deleta um usuário pelo username")
     public ResponseEntity<String> deleteUser(@PathVariable String username) {
@@ -78,6 +78,18 @@ public class AuthController {
                 .map(user -> {
                     userRepository.delete(user);
                     return ResponseEntity.ok("Usuário deletado com sucesso!");
+                })
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PutMapping("/users/{username}")
+    @Operation(summary = "Atualiza a senha de um usuário pelo username")
+    public ResponseEntity<String> updatePassword(@PathVariable String username, @RequestBody LoginRequest loginRequest) {
+        return userRepository.findByUsername(username)
+                .map(user -> {
+                    user.setPassword(passwordEncoder.encode(loginRequest.getPassword()));
+                    userRepository.save(user);
+                    return ResponseEntity.ok("Senha atualizada com sucesso!");
                 })
                 .orElse(ResponseEntity.notFound().build());
     }
