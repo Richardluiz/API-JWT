@@ -2,6 +2,9 @@
 
 API REST com autenticação e autorização baseada em JWT (JSON Web Token), desenvolvida com Spring Boot. Possui endpoints protegidos por papéis (admin/user), documentação com Swagger, monitoramento com Spring Boot Actuator + Prometheus e deploy com Docker.
 
+✅ Testes automatizados realizados com sucesso via VS Code
+⚠️ Testes com JMeter e tentativa de deploy foram realizados, mas não obtiveram êxito
+
 ---
 
 ## 🚀 Tecnologias Utilizadas
